@@ -1,0 +1,563 @@
+@use "variables" as *
+@use "mixins" as *
+
+// === PAGE LAYOUT ===
+.app
+  +flex-col
+  min-height: 100dvh
+  background: $bg-dark
+
+.page
+  +flex-col
+  flex: 1
+  min-height: 100dvh
+  background: $bg-dark
+  padding-bottom: calc($bottom-nav-height + $safe-area-bottom + $space-lg)
+
+.page-no-nav
+  padding-bottom: 0
+
+.container
+  width: 100%
+  max-width: 480px
+  margin: 0 auto
+  padding: 0 $page-px
+
+// === APP HEADER ===
+.app-header
+  +flex-between
+  padding: $space-2xl $page-px $space-lg
+  position: sticky
+  top: 0
+  z-index: $z-sticky
+  background: $bg-dark
+  border-bottom: 1px solid $border-subtle
+
+.header-left
+  +flex-col
+  gap: 0.125rem
+
+.header-title
+  font-size: 1.25rem
+  font-weight: 700
+  color: $red
+
+.header-subtitle
+  font-size: 0.75rem
+  color: $text-muted
+
+.header-right
+  display: flex
+  align-items: center
+  gap: $space-sm
+
+.header-back
+  +btn-icon
+  font-size: 1.25rem
+  text-decoration: none
+
+.header-actions
+  display: flex
+  align-items: center
+  gap: $space-sm
+
+// === SECTION ===
+.section
+  padding: 0 $page-px
+  margin-bottom: $space-2xl
+
+.section-title
+  font-size: 0.75rem
+  font-weight: 600
+  color: $text-muted
+  text-transform: uppercase
+  letter-spacing: 0.08em
+  margin-bottom: $space-md
+
+// === SERIES CARD ===
+.series-card
+  display: flex
+  flex-direction: column
+  background: $bg-card
+  border-radius: $radius-lg
+  border: 1px solid $border-subtle
+  overflow: hidden
+  text-decoration: none
+  transition: all 0.2s ease
+
+  &:hover
+    border-color: $border-medium
+    box-shadow: $shadow-sm
+
+  .poster
+    aspect-ratio: 2/3
+    width: 100%
+    object-fit: cover
+
+  .poster-placeholder
+    aspect-ratio: 2/3
+    width: 100%
+    background: $bg-surface
+    +flex-center
+    span
+      font-size: 2rem
+      opacity: 0.3
+
+  .info
+    padding: $space-md
+
+    .title
+      font-size: 0.8125rem
+      font-weight: 600
+      color: $text-primary
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+      margin-bottom: $space-xs
+
+    .meta
+      display: flex
+      align-items: center
+      gap: $space-sm
+      .episode-tag
+        +tag-cyan
+      .platform
+        font-size: 0.6875rem
+        color: $text-muted
+
+// === FORMS ===
+.auth-page
+  +flex-center
+  +flex-col
+  min-height: 100dvh
+  padding: $space-3xl $page-px
+  background: $bg-dark
+
+.auth-card
+  width: 100%
+  max-width: 24rem
+  background: $bg-card
+  border-radius: $radius-lg
+  border: 1px solid $border-subtle
+  padding: $space-3xl $space-xl
+
+.auth-title
+  font-size: 1.5rem
+  font-weight: 700
+  color: $red
+  text-align: center
+  margin-bottom: $space-xs
+
+.auth-subtitle
+  font-size: 0.875rem
+  color: $text-muted
+  text-align: center
+  margin-bottom: $space-2xl
+
+.auth-form
+  display: flex
+  flex-direction: column
+  gap: $space-lg
+
+.auth-link
+  font-size: 0.8125rem
+  color: $text-muted
+  text-align: center
+  a
+    color: $red
+    font-weight: 500
+    text-decoration: none
+    &:hover
+      text-decoration: underline
+
+.auth-error
+  font-size: 0.8125rem
+  color: $danger
+  text-align: center
+  padding: $space-md
+  background: $danger-light
+  border-radius: $radius-md
+
+.form-grid
+  display: grid
+  grid-template-columns: 1fr 1fr
+  gap: $space-md
+
+.form-full
+  width: 100%
+
+// === TRACK FORM ===
+.track-form
+  background: $bg-card
+  border-radius: $radius-lg
+  border: 1px solid $border-subtle
+  padding: $space-xl
+
+  .form-title
+    font-size: 0.875rem
+    font-weight: 600
+    color: $text-primary
+    margin-bottom: $space-lg
+
+// === SEARCH ===
+.search-wrapper
+  position: relative
+
+  .search-icon
+    position: absolute
+    left: $space-lg
+    top: 50%
+    transform: translateY(-50%)
+    font-size: 1rem
+    color: $text-muted
+    pointer-events: none
+
+  input
+    width: 100%
+    background: $bg-input
+    border: 1px solid $border-subtle
+    border-radius: $radius-md
+    padding: 0.75rem 1rem 0.75rem 3rem
+    font-size: 0.875rem
+    color: $text-primary
+    transition: border-color 0.2s
+    &::placeholder
+      color: $text-muted
+    &:focus
+      outline: none
+      border-color: $red
+
+.search-results
+  position: absolute
+  top: calc(100% + $space-sm)
+  width: 100%
+  background: $bg-card
+  border-radius: $radius-lg
+  border: 1px solid $border-subtle
+  box-shadow: $shadow-lg
+  z-index: $z-dropdown
+  max-height: 24rem
+  overflow-y: auto
+
+  .result-item
+    display: flex
+    align-items: center
+    gap: $space-md
+    width: 100%
+    padding: $space-md $space-lg
+    text-align: left
+    border-bottom: 1px solid $border-subtle
+    transition: background 0.2s
+    cursor: pointer
+    background: none
+    border-left: none
+    border-right: none
+    border-top: none
+    &:last-child
+      border-bottom: none
+    &:hover
+      background: $bg-surface
+
+    .result-poster
+      width: 2.5rem
+      height: 3.5rem
+      border-radius: $radius-sm
+      object-fit: cover
+
+    .result-poster-empty
+      width: 2.5rem
+      height: 3.5rem
+      border-radius: $radius-sm
+      background: $bg-surface
+      +flex-center
+      span
+        font-size: 0.75rem
+        color: $text-muted
+
+    .result-info
+      flex: 1
+      min-width: 0
+      .result-name
+        font-size: 0.8125rem
+        font-weight: 500
+        color: $text-primary
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+      .result-year
+        font-size: 0.75rem
+        color: $text-muted
+
+    .result-arrow
+      color: $text-muted
+      font-size: 1rem
+
+// === SERIES DETAIL ===
+.series-hero
+  background: $bg-card
+  border-radius: $radius-lg
+  border: 1px solid $border-subtle
+  padding: $space-lg
+  display: flex
+  gap: $space-lg
+  margin: 0 $page-px
+  margin-bottom: $space-2xl
+  position: relative
+  overflow: hidden
+
+  &::before
+    content: ""
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    height: 3px
+    background: $red
+
+  .hero-poster
+    width: 6rem
+    border-radius: $radius-md
+    object-fit: cover
+    flex-shrink: 0
+
+  .hero-poster-empty
+    width: 6rem
+    aspect-ratio: 2/3
+    border-radius: $radius-md
+    background: $bg-surface
+    +flex-center
+    flex-shrink: 0
+    span
+      font-size: 1.5rem
+      opacity: 0.3
+
+  .hero-info
+    flex: 1
+    min-width: 0
+    +flex-col
+    gap: $space-sm
+
+    .hero-overview
+      font-size: 0.75rem
+      color: $text-secondary
+      line-height: 1.4
+      display: -webkit-box
+      -webkit-line-clamp: 4
+      -webkit-box-orient: vertical
+      overflow: hidden
+
+    .hero-genres
+      display: flex
+      flex-wrap: wrap
+      gap: $space-xs
+      margin-top: auto
+
+// === SEASON BLOCK ===
+.season-block
+  background: $bg-card
+  border-radius: $radius-lg
+  border: 1px solid $border-subtle
+  overflow: hidden
+
+  .season-header
+    display: flex
+    align-items: center
+    justify-content: space-between
+    width: 100%
+    padding: $space-md $space-lg
+    text-align: left
+    background: none
+    border: none
+    cursor: pointer
+    transition: background 0.2s
+    &:hover
+      background: $bg-surface
+
+    .season-info
+      display: flex
+      align-items: center
+      gap: $space-md
+      .season-name
+        font-size: 0.8125rem
+        font-weight: 600
+        color: $text-primary
+
+    .season-arrow
+      color: $text-muted
+      font-size: 1rem
+      transition: transform 0.2s
+      &.open
+        transform: rotate(90deg)
+
+  .episodes
+    border-top: 1px solid $border-subtle
+    padding: $space-md $space-lg
+
+    .episode-item
+      display: flex
+      align-items: center
+      justify-content: space-between
+      padding: $space-sm 0
+      border-bottom: 1px solid $border-subtle
+      &:last-child
+        border-bottom: none
+
+      .episode-left
+        display: flex
+        align-items: center
+        gap: $space-md
+        .episode-name
+          font-size: 0.8125rem
+          color: $text-primary
+
+      .episode-status
+        font-size: 1rem
+        color: $text-muted
+
+// === STATS ROW ===
+.stats-row
+  display: flex
+  gap: $space-md
+  padding: 0 $page-px
+  margin-bottom: $space-2xl
+
+  .stat-card
+    background: $bg-card
+    border-radius: $radius-lg
+    border: 1px solid $border-subtle
+    +flex-col
+    align-items: center
+    padding: $space-lg
+    flex: 1
+    .stat-value
+      font-size: 1.25rem
+      font-weight: 700
+      color: $text-primary
+    .stat-label
+      font-size: 0.625rem
+      color: $text-muted
+      text-transform: uppercase
+      letter-spacing: 0.05em
+
+// === PROFILE ===
+.profile-header
+  background: $bg-card
+  border-radius: $radius-lg
+  border: 1px solid $border-subtle
+  padding: $space-xl
+  margin: 0 $page-px
+  margin-bottom: $space-2xl
+  position: relative
+
+  &::before
+    content: ""
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    height: 3px
+    background: $red
+
+  .profile-avatar
+    +avatar(4rem)
+    margin: 0 auto $space-lg
+
+  .profile-name
+    font-size: 1.125rem
+    font-weight: 700
+    color: $text-primary
+    text-align: center
+
+// === BOTTOM NAV ===
+.bottom-nav
+  position: fixed
+  bottom: 0
+  left: 0
+  right: 0
+  z-index: $z-nav
+  display: flex
+  align-items: center
+  justify-content: space-around
+  padding: $space-sm $page-px calc($space-sm + $safe-area-bottom)
+  height: $bottom-nav-height
+  background: $bg-dark
+  border-top: 1px solid $border-subtle
+
+  .nav-item
+    +flex-col
+    align-items: center
+    gap: 0.125rem
+    background: none
+    border: none
+    color: $text-muted
+    cursor: pointer
+    padding: $space-sm $space-md
+    border-radius: $radius-md
+    transition: all 0.2s
+    text-decoration: none
+    .nav-icon
+      font-size: 1.25rem
+      transition: color 0.2s
+    .nav-label
+      font-size: 0.625rem
+      font-weight: 500
+      transition: color 0.2s
+    &:hover
+      color: $text-secondary
+    &.active
+      color: $red
+      .nav-icon
+        color: $red
+
+// === EMPTY STATE ===
+.empty-state
+  +flex-col
+  align-items: center
+  justify-content: center
+  padding: $space-3xl $space-lg
+  text-align: center
+
+  .empty-icon
+    width: 5rem
+    height: 5rem
+    border-radius: $radius-xl
+    background: $bg-surface
+    border: 1px solid $border-subtle
+    +flex-center
+    font-size: 1.875rem
+    margin-bottom: $space-lg
+
+  .empty-text
+    color: $text-muted
+    font-size: 0.875rem
+
+// === LOADING ===
+.loading
+  +flex-center
+  padding: $space-3xl
+
+  .spinner
+    +loading-spinner
+
+// === FOLLOWING CHIPS ===
+.following-chips
+  display: flex
+  gap: $space-sm
+  flex-wrap: wrap
+
+.following-chip
+  display: inline-flex
+  align-items: center
+  gap: $space-xs
+  padding: $space-xs $space-md
+  border-radius: $radius-full
+  background: $bg-surface
+  border: 1px solid $border-subtle
+  color: $text-secondary
+  font-size: 0.75rem
+  font-weight: 500
+  text-decoration: none
+  transition: all 0.2s
+  &:hover
+    background: $bg-card-hover
+    border-color: $border-medium
